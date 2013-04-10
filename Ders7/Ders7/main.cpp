@@ -57,8 +57,8 @@ int currentTime;
 int elapsedTime;
 bool isKeyDownW=false;
 bool isKeyDownS=false;
-bool isKeyDownO=false;
-bool isKeyDownL= false;
+bool isKeyDownUp=false;
+bool isKeyDownDown= false;
 
 bool goalState= false;
 
@@ -103,17 +103,17 @@ static void SpecialKey(int key, int x , int y)
 	switch (key)
 	{
 	case GLUT_KEY_UP:
-		isKeyDownO=true;
+		isKeyDownUp=true;
 		break;
 	case GLUT_KEY_DOWN:
-		isKeyDownL=true;
+		isKeyDownDown=true;
 	}
 
 }
 static void SpecialUpKey(int key, int x, int y)
 {
-	isKeyDownO=false;
-	isKeyDownL=false;
+	isKeyDownUp=false;
+	isKeyDownDown=false;
 }
 
 static void Key(unsigned char key, int x, int y)
@@ -125,11 +125,11 @@ static void Key(unsigned char key, int x, int y)
 		break;
 	case GLUT_KEY_PAGE_DOWN: // ESC
 		//pad1->translate(0, -.5, 0);
-		isKeyDownO= true;
+		isKeyDownUp= true;
 		break;
 	case GLUT_KEY_DOWN: // ESC
 		//pad1->translate(0, 0.5, 0);
-		isKeyDownL = true;
+		isKeyDownDown = true;
 		break;
 	case 'w': // ESC
 		//pad2->translate(0, -0.05, 0);
@@ -204,7 +204,8 @@ void IdleFunction(void)
 	{
 		if(pad2->getPosition().y+1.1 > y && pad2->getPosition().y-1.1 < y ) 
 		{
-			
+			float Coefficient=pad2->getPosition().y-y;
+			directionY= -Coefficient;
 			directionX *= -1;
 		}
 		else
@@ -218,7 +219,8 @@ void IdleFunction(void)
 	{
 		if(pad1->getPosition().y+1.1 > y && pad1->getPosition().y-1.1 < y ) 
 		{
-
+			float Coefficient=pad1->getPosition().y-y;
+			directionY= -Coefficient;
 			directionX *= -1;
 
 		}
@@ -230,7 +232,7 @@ void IdleFunction(void)
 	}
 
 	// pad1->rotate(1, 0, 1, 0);
-	if(isKeyDownW)
+	if(isKeyDownUp)
 	{
 
 		if(pad2->getPosition().y+1.1<4.2)
@@ -242,7 +244,7 @@ void IdleFunction(void)
 			pad2Speed= 0;
 		}
 	}
-	else if (isKeyDownS)
+	else if (isKeyDownDown)
 	{
 		
 		if(pad2->getPosition().y-1.1>-4.2)
@@ -258,7 +260,7 @@ void IdleFunction(void)
 	{
 		pad2Speed = 0;
 	}
-	if(isKeyDownO)
+	if(isKeyDownW)
 	{
 
 		if(pad1->getPosition().y+1.1<4.2)
@@ -270,7 +272,7 @@ void IdleFunction(void)
 			pad1Speed= 0;
 		}
 	}
-	else if (isKeyDownL)
+	else if (isKeyDownS)
 	{
 		
 		if(pad1->getPosition().y-1.1>-4.2)
